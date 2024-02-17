@@ -1,44 +1,5 @@
-import users as users
-import evaluate as evaluate
-
-from fastapi import FastAPI
-
-app = FastAPI()
-
-
-@app.get("/")
-def read_root():
-    return "Server running!!"
-
-@app.post("/users/create")
-def create_user(
-        email: str,
-        password:str,
-        username: str,
-        name: str = None,
-        cpf: str = None
-    ):
-    return users.create_user(
-        email, password, name, username, cpf
-    )
-
-@app.post("/users/login")
-def login_user(
-        email: str,
-        password:str
-    ):
-    return users.login_user(email, password)
-
-@app.post("/reservations/{reservation_id}/evaluate")
-def rating_post(
-        reservation_id:str,
-        accommodation_id:str,
-        stars:int,       
-        comment:str = "",
-        
-    ):
-    return evaluate.add_rating(reservation_id, stars, comment, accommodation_id)
-import backend.src.users as users
+import src.users as users
+import src.evaluate as evaluate
 from fastapi import FastAPI, File, HTTPException, UploadFile
 import src.firebase_config as firebase_config
 import src.accommodations as accommodations
@@ -100,3 +61,12 @@ async def upload(accommodation_id: str, file: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(status_code=500, detail="Erro interno do servidor")
    
+@app.post("/reservations/{reservation_id}/evaluate")
+def rating_post(
+        reservation_id:str,
+        accommodation_id:str,
+        stars:int,       
+        comment:str = "",
+        
+    ):
+    return evaluate.add_rating(reservation_id, stars, comment, accommodation_id) 
