@@ -12,7 +12,7 @@ def add_rating(reservation_id:str, stars:int, comment:str, accommodation_id:str)
                 "accommodation_id": accommodation_id,
             }
             firebase_config.db.child("rating").child(data["accommodation_id"]).push(data)
-            print("User rating added successfully!")
+            return "User rating added successfully!"
         else:
             raise HTTPException(status_code=500, detail="the number of stars is not in the allowed range.")
     else:
