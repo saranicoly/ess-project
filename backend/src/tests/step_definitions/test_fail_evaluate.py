@@ -1,7 +1,7 @@
 from pytest_bdd import parsers, given, when, then, scenario
 import pytest
 from fastapi import HTTPException
-import src.main as main
+import main as main
 
 @scenario(scenario_name="Nenhuma estrela foi adicionada", feature_name="../features/evaluate.feature")
 def test_rating_0_stars():

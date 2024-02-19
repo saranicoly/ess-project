@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-import firebase_config as firebase_config
+import src.db.firebase_config as firebase_config
 
 
 def add_rating(reservation_id:str, stars:int, comment:str, accommodation_id:str):
