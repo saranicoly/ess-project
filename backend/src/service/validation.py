@@ -6,6 +6,20 @@ from datetime import datetime, timedelta
 class Validation:
 
     @staticmethod
+    def id_has_no_reservation(id):
+        
+        reservations = firebase_config.db.child("reservation").get().val()
+        
+        for _, info in reservations.items():
+            
+            disponibilidade = info['disponibility']
+            
+            if not disponibilidade:
+                 return True #existe reserva
+        
+        return False   #nao existe reserva
+    
+    @staticmethod
     def get_reservation_by_id(reservation_id):
       
         data_rsv = firebase_config.db.child("reservation").child(reservation_id).get().val()

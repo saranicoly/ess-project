@@ -3,3 +3,37 @@ from fastapi import HTTPException
 from src.service.validation import Validation
 from src.schemas.reservation import ItemModel
 
+## ---------- Edição de reserva com sucesso -------------
+
+@scenario(scenario_name = "Histórico de user sem reservas", feature_name = "../feature/manage_historic.feature")
+def test_historic_accommodation_by_id():
+    pass
+
+@given(parsers.cfparse('existe um usuário de user name "{user}" cadastrado no banco de dados '))
+def mock_accommodation_service_response(user: str):
+
+    result = Validation.get_user_by_id(user)
+    assert result
+
+@given(parsers.cfparse('o usuário {user} não tem reservas'))   
+def put_edite_accommodation(client, context, user: str):
+    
+    response = client.put(url_requisition, params={"description": desc, "max_capacity": int(num)})
+    context["response"] = response
+
+    return context
+    
+@then(parsers.cfparse('o status do código deve ser "{status_code}"'), target_fixture="context") 
+def check_edite_accommodation_status_code(context, status_code: str): 
+    assert context["response"].status_code == int(status_code) 
+    return context
+
+@then(parsers.cfparse('o Json de resposta deve conter "{resposta_txt}"'),target_fixture="context")
+def check_response_accommodation_json(context, resposta_txt: str):
+    
+    response_data = context["response"].json()
+    print(response_data)
+    assert  response_data.get("detail","") in resposta_txt
+
+    return context
+

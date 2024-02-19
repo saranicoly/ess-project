@@ -14,6 +14,7 @@ def historyc(user_id, checkin, checkout):
     check_out_date = result[2]
 
     data_atual = datetime.now().date()
+
     range = data_atual < check_in_date and data_atual < check_out_date
 
     exist_user = Validation.get_user_by_id(user_id)
@@ -25,6 +26,7 @@ def historyc(user_id, checkin, checkout):
         result = []
         
         for _, info in reservation.items():
+
             usuario = info['client_id']
            
             data_user_in = { 'checkin_a': datetime.strptime(info['checkin_date'], "%Y-%m-%d").date(),
@@ -35,13 +37,14 @@ def historyc(user_id, checkin, checkout):
             
             ## está funcioanndo. Porém, para teste colocar  <= em data_atual
 
-            if usuario == user_id and data_user_out['checkout_a'] < data_atual and data_user_in['checkin_a'] < data_user_out['checkout_a']:
+            if usuario == user_id and data_user_out['checkout_a'] < data_atual :
                     if data_user_out['checkout_a'] <= data_user_out['checkout_b'] and data_user_in['checkin_a'] >= data_user_in['checkin_b']:
                         result.append(info)
                     else:
-                        raise HTTPException(status_code= 400, detail="Date interval not valid")
+                        raise HTTPException(status_code= 400, detail="Inválido intervalo de data")
         
         if not result:
-            raise HTTPException(status_code=200, detail = result)  
+            raise HTTPException(status_code=404, detail = result)  
+        
         raise HTTPException(status_code=200, detail = result) 
-    raise HTTPException(status_code= 404, detail=f"{user_id} not exist or range date invalid")
+    raise HTTPException(status_code= 404, detail=f"{user_id} não existe ou range inválido")
