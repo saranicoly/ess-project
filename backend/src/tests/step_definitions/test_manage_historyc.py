@@ -3,30 +3,24 @@ from fastapi import HTTPException
 from src.service.validation import Validation
 from src.schemas.reservation import ItemModel
 
-## ---------- Edição de reserva com sucesso -------------
-
-@scenario(scenario_name = "Histórico de user sem reservas", feature_name = "../feature/manage_historic.feature")
-def test_historic_accommodation_by_id():
+@scenario(scenario_name ="Histórico de user com reservas", feature_name = "../feature/manage_historic.feature")
+def test_historic_accommodation_sucess():
     pass
 
-@given(parsers.cfparse('existe um usuário de user name "{user}" cadastrado no banco de dados '))
+@given(parsers.cfparse('existe um usuário de user name "{user}" cadastrado no banco de dados'))
 def mock_accommodation_service_response(user: str):
 
     result = Validation.get_user_by_id(user)
-    assert result
-
-@given(parsers.cfparse('o usuário {user} não tem reservas'))   
-def put_edite_accommodation(user: str):
+    assert result 
     
-    response = Validation.id_has_no_reservation(user)
-    assert response
 
-@when(parsers.cfparse(' é enviado uma requisição GET para "{url_requisition}"'),
+@when(parsers.cfparse('é enviado uma requisição GET para "{url_requisition}" entre os dia "{day_in}" e "{day_out}"'),
     target_fixture="context"
 )   
-def put_edite_accommodation_error(client, context, url_requisition: str):
+def put_edite_accommodation_error(client, context, url_requisition: str, day_in: str, day_out: str):
     
-    response = client.get(url_requisition, params={})
+    response = client.get(url_requisition, params={"checkin": day_in, "checkout": day_out})
+    print(response)
     context["response"] = response
     return context
 
@@ -35,4 +29,11 @@ def check_edite_accommodation_status_code(context, status_code: str):
     assert context["response"].status_code == int(status_code) 
     return context
 
+@then(parsers.cfparse('o Json de resposta deve conter uma lista de reservas'),target_fixture="context")
 
+def check_response_reservation_json_erro(context):
+    
+    response_data = context["response"].json()
+    assert  response_data.get("detail","") 
+
+    return context

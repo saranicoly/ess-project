@@ -101,7 +101,8 @@ def create_reservation(
         accommodation_id: str,
         client_id: str
         ):
-        return reservations.create_reservation(client_id, accommodation_id, reservation_checkin, reservation_checkout)
+        return reservations.create_reservation(client_id, accommodation_id,
+                                                reservation_checkin, reservation_checkout)
 
 @app.put("/accommodation/{id}/edit")
 def edit_accommodation(

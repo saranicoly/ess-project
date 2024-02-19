@@ -1,5 +1,5 @@
 
-"""
+
 from pytest_bdd import parsers, given, when, then, scenario
 from fastapi import HTTPException
 from src.service.validation import Validation
@@ -235,5 +235,3 @@ def passoQuinto(context, resposta_txt: str):
     response_data = context["response"].json()
     assert  response_data.get("detail","") in resposta_txt
     return context
-
-"""

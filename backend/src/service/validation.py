@@ -35,7 +35,7 @@ class Validation:
         return [range, check_in_date, check_out_date]
     
     @staticmethod
-    def id_has_no_reservation(id_user):
+    def id_has_reservation(id_user):
         
         reservations = firebase_config.db.child("reservation").get().val()
         
@@ -44,7 +44,21 @@ class Validation:
             disponibilidade = info['client_id']
             
             if  disponibilidade == id_user:
+                 print("aquiii")
                  return True #existe reserva
         
         return False   #nao existe reserva
     
+    @staticmethod
+    def user_reservation(id_user):
+        
+        reservations = firebase_config.db.child("reservation").get().val()
+        
+        for index, info in reservations.items():
+            
+            user_teste = info['client_id']
+            
+            if  user_teste == id_user:
+                 firebase_config.db.child("reservation").child(index).remove()
+        
+        return "apagado"
