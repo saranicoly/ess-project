@@ -15,6 +15,8 @@ from src.db.firebase_config import auth
 import src.db.firebase_config as firebase_config
 from fastapi.middleware.cors import CORSMiddleware
 
+from typing import Optional
+
 app = FastAPI()
 
 storage = firebase_config.firebase.storage()
@@ -104,16 +106,16 @@ def create_reservation(
 @app.put("/accommodation/{id}/edit")
 def edit_accommodation(
         id: str,
-        accommodation_name: str = None,
-        accommodation_loc: str = None, 
-        accommodation_bedrooms: int = None,
-        accommodation_max_capacity: int = None, 
-        accommodation_description: str = None,
+        name: Optional[str] = None,
+        location: Optional[str] = None,
+        bedrooms: Optional[int] = None,
+        max_capacity: Optional[int] = None, 
+        description: Optional[str] = None,
         ):
         
-        return edit_accommodations.update_accommodation(id, accommodation_name, accommodation_loc, 
-                         accommodation_bedrooms, accommodation_max_capacity, 
-                         accommodation_description)
+        return edit_accommodations.update_accommodation(id, name, location, 
+                         bedrooms, max_capacity, 
+                         description)
 
 @app.delete("/accommodation/{id}/delete") 
 def delete_accomodation(id: str):

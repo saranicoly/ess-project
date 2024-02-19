@@ -1,5 +1,5 @@
 
-Feature: Gerenciamento reserva API
+Feature: Gerenciamento acomodação API
 
 
 Scenario: Editar reserva com sucesso
@@ -34,8 +34,8 @@ Scenario: Deletar reserva com sucesso
 
 Scenario: Deletar reserva que não existe
 
-    Given Uma reserva de id "b1c0afcb-20f3-4579-8892-86d78cf29b0e", não existe no bando de dados
-    When um usuário envia uma requisição DELETE para "/reservation/b1c0afcb-20f3-4579-8892-86d78cf29b0e/delete" 
+    Given Uma reserva de id "d5aabe0e-afd6-4a6e-8f03-b972fede4d63", não existe no bando de dados
+    When um usuário envia uma requisição DELETE para "/reservation/d5aabe0e-afd6-4a6e-8f03-b972fede4d63/delete" 
     Then o status do código deve ser "404"
     And o Json de resposta deve conter "A Reserva não existe no banco de dados"
     

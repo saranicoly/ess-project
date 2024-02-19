@@ -2,6 +2,7 @@ from fastapi import HTTPException
 from  src.db import firebase_config
 from src.api.delete_accommodations import check_any_reservation
 from src.service.validation import Validation
+
 #------------ ver se accomodation existe
 
 ## validar e editar imagem
@@ -9,9 +10,7 @@ def update_accommodation(accommodation_id, accommodation_name, accommodation_loc
                          accommodation_bedrooms, accommodation_max_capacity, 
                          accommodation_description):
     # tem ou não reservas
-    
-    print("TUDO QUE RECEBI", accommodation_bedrooms, accommodation_id, accommodation_loc, accommodation_max_capacity, accommodation_name)
-   
+
     current_data = Validation.get_accommodation_by_id(accommodation_id)
 
     if current_data:
@@ -37,7 +36,6 @@ def update_accommodation(accommodation_id, accommodation_name, accommodation_loc
         raise HTTPException(status_code=200, detail="Acomodação editada com sucesso!")
 
     else :
-        print("juliaaa")
         try:
 
             update_data = {

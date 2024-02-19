@@ -1,18 +1,22 @@
 from fastapi import HTTPException
 from  src.db import firebase_config
 from datetime import datetime
+from src.service.validation import Validation
 
 ## ------------- avlidar se checkin < checkout 
 
 def historyc(user_id, checkin, checkout):
     ## validar se user existe
-    check_in_date = datetime.strptime(checkin, "%Y-%m-%d").date()
-    check_out_date = datetime.strptime(checkout, "%Y-%m-%d").date()
+
+    result = Validation.range_date_validation(checkin, checkout)
+
+    check_in_date = result[1]
+    check_out_date = result[2]
 
     data_atual = datetime.now().date()
     range = data_atual < check_in_date and data_atual < check_out_date
 
-    exist_user = firebase_config.db.child("users").child(user_id).get().val()
+    exist_user = Validation.get_user_by_id(user_id)
 
     if exist_user and range:
 
