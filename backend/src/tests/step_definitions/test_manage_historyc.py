@@ -16,24 +16,23 @@ def mock_accommodation_service_response(user: str):
     assert result
 
 @given(parsers.cfparse('o usuário {user} não tem reservas'))   
-def put_edite_accommodation(client, context, user: str):
+def put_edite_accommodation(user: str):
     
-    response = client.put(url_requisition, params={"description": desc, "max_capacity": int(num)})
-    context["response"] = response
+    response = Validation.id_has_no_reservation(user)
+    assert response
 
-    return context
+@when(parsers.cfparse(' é enviado uma requisição GET para "{url_requisition}"'),
+    target_fixture="context"
+)   
+def put_edite_accommodation_error(client, context, url_requisition: str):
     
+    response = client.get(url_requisition, params={})
+    context["response"] = response
+    return context
+
 @then(parsers.cfparse('o status do código deve ser "{status_code}"'), target_fixture="context") 
 def check_edite_accommodation_status_code(context, status_code: str): 
     assert context["response"].status_code == int(status_code) 
     return context
 
-@then(parsers.cfparse('o Json de resposta deve conter "{resposta_txt}"'),target_fixture="context")
-def check_response_accommodation_json(context, resposta_txt: str):
-    
-    response_data = context["response"].json()
-    print(response_data)
-    assert  response_data.get("detail","") in resposta_txt
-
-    return context
 
