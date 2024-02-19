@@ -1,6 +1,6 @@
 import uuid
 from fastapi import HTTPException
-import src.db.firebase_config as firebase_config
+from  src.db import firebase_config
 import src.api.accommodations as accommodations
 from datetime import timedelta, datetime
 

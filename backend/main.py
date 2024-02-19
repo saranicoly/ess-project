@@ -1,19 +1,27 @@
 from datetime import date
-import src.api.reservations as reservations
-import src.api.users as users
-import src.api.accommodations as accommodations
-import src.api.evaluate as evaluate
+from src.api import reservations 
+from src.api import  users
+from src.api import accommodations
+from src.api import edit_accommodations
+from src.api import delete_accommodations
+from src.api import edite_reservation 
+from src.api import delete_reservation
+from src.api import historyc
+from src.api import evaluate
 
 from fastapi import FastAPI, HTTPException, Depends, Cookie
 from fastapi import FastAPI, File, UploadFile
 from fastapi.responses import RedirectResponse
 from src.db.firebase_config import auth
-import src.db.firebase_config  as firebase_config
-from pydantic import SecretStr
+import src.db.firebase_config as firebase_config
+from fastapi.middleware.cors import CORSMiddleware
+
+from typing import Optional
 
 app = FastAPI()
+
 storage = firebase_config.firebase.storage()
-app.logged_user = ""
+
 
 # Custom dependency to check user authentication
 def get_current_user(token: str = Cookie(None)):
@@ -32,43 +40,29 @@ def read_root():
 
 @app.post("/users/create")
 def create_user(
-        name: str,
-        username:str,
         email: str,
-        cpf: str,
-        password: str
+        password:str,
+        username: str,
+        name: str = None,
+        cpf: str = None
     ):
-    users.check_register_fields(name.strip(), username, email, cpf, password)
-    users.check_existing_fields(username, email, cpf)
-
-    return users.create_user(name, username, email, cpf, password)
+    
+    return users.create_user(
+        email, password, name, username, cpf
+    )
 
 @app.post("/users/login")
 def login_user(
-        emailOrUsername: str,
-        password:SecretStr 
+        email: str,
+        password:str
     ):
-    if app.logged_user:
-        return "Usuário já está logado"
-    
-    if users.is_email(emailOrUsername):
-        msg = users.login_user(emailOrUsername, password.get_secret_value())
-        app.logged_user = emailOrUsername
-        return msg
-    
-    #Se não for um email, é um username
-    #Para logar o email é consultado a partir desse username
-    email = users.get_email_from_username(emailOrUsername)
-    msg = users.login_user(email, password.get_secret_value())
-    app.logged_user = email
-    return msg
+    return users.login_user(email, password)
 
 @app.post("/users/logout")
-def logout_user():
-    if app.logged_user:
-        app.logged_user = ""
-        return "Usuário deslogado com sucesso!"
-    raise HTTPException(status_code=400, detail="Falha ao realizar logout: Usuário não estava logado.")
+def logout_user(
+        token: str
+    ):
+    return users.logout_user(token)
 
 
 @app.post("/accommodation/create")
@@ -110,6 +104,38 @@ def create_reservation(
         ):
         return reservations.create_reservation(client_id, accommodation_id, reservation_checkin, reservation_checkout)
 
+@app.put("/accommodation/{id}/edit")
+def edit_accommodation(
+        id: str,
+        name: Optional[str] = None,
+        location: Optional[str] = None,
+        bedrooms: Optional[int] = None,
+        max_capacity: Optional[int] = None, 
+        description: Optional[str] = None,
+        ):
+        
+        return edit_accommodations.update_accommodation(id, name, location, 
+                         bedrooms, max_capacity, 
+                         description)
+
+@app.delete("/accommodation/{id}/delete") 
+def delete_accomodation(id: str):
+     return delete_accommodations.delet_accommodation(id)
+
+@app.put("/reservation/{id}/edit")
+def edit_reservation(id: str, checkin_date:str, checkout_date: str, accommodation_id: str, cliente_id: str):
+     return edite_reservation.edit_reservation(id, checkin_date, 
+                                               checkout_date,accommodation_id, cliente_id)
+     
+
+@app.delete("/reservation/{id}/delete")
+def del_reservation(id: str):
+    return delete_reservation.delete_reservation(id)
+
+@app.get("/historyc/{id}")
+def get_historic(id:str, checkin: str, checkout:str):
+     return historyc.historyc(id, checkin, checkout)
+
 @app.post("/reservations/{reservation_id}/evaluate")
 def rating_post(
         reservation_id:str,
@@ -118,4 +144,4 @@ def rating_post(
         comment:str = "",
         
     ):
-    return evaluate.add_rating(reservation_id, stars, comment, accommodation_id) 
+    return evaluate.add_rating(reservation_id, stars, comment, accommodation_id)

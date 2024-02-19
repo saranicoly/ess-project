@@ -3,7 +3,7 @@ import pytest
 from fastapi import HTTPException
 import main as main
 
-@scenario(scenario_name="Nenhuma estrela foi adicionada", feature_name="../features/evaluate.feature")
+@scenario(scenario_name="Nenhuma estrela foi adicionada", feature_name="../feature/evaluate.feature")
 def test_rating_0_stars():
      """ it do not add rating becase not add any"""
 
@@ -32,10 +32,10 @@ def check_response_status_code(context, status:int, mensage:str):
     assert context.value.detail == mensage
 
 
-@scenario(scenario_name="Mais estrelas do que o permitido", feature_name="../features/evaluate.feature")
+@scenario(scenario_name="Mais estrelas do que o permitido", feature_name="../feature/evaluate.feature")
 def test_rating_execced_stars():
      """it do not add rating becase excced star number are add"""
 
-@scenario(scenario_name="enviar avaliação, mas a avaliação já existe para aquela reserva", feature_name="../features/evaluate.feature")
+@scenario(scenario_name="enviar avaliação, mas a avaliação já existe para aquela reserva", feature_name="../feature/evaluate.feature")
 def test_exitent_rating_():
      """it do not add rating becase excced star number are add"""
