@@ -8,6 +8,7 @@ __pycache__/
 .env
 .log
 .tmp
+.pack
 
 /dist
 /out-tsc
