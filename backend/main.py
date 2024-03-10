@@ -90,12 +90,14 @@ def create_accommodation(
         accommodation_bedrooms: int,
         accommodation_max_capacity: int, 
         accommodation_description: str,
+        accommodation_price: float,
         user_id: str
-        ):
+    ):
         
-        return accommodations.create_accommodation(accommodation_name, accommodation_loc, 
-                         accommodation_bedrooms, accommodation_max_capacity, 
-                         accommodation_description, user_id)
+        return accommodations.create_accommodation(accommodation_name, accommodation_loc,
+                                                   accommodation_bedrooms, accommodation_max_capacity,
+                                                   accommodation_description, accommodation_price, user_id
+                                                )
 
 @app.post("/accommodation/create/upload_img")
 async def upload(accommodation_id: str, file: UploadFile = File(...)):
@@ -129,6 +131,12 @@ def rating_post(
         comment:str = ""
     ):
     return evaluate.add_rating(reservation_id, stars, comment, accommodation_id)
+
+@app.get("/accommodation/{accommodation_id}")
+def get_accommodation_by_id(accommodation_id: str): 
+    return accommodations.get_accommodation_by_id(
+        accommodation_id
+    )
 
 @app.get("/accommodation/list")
 def get_accommodations(
