@@ -9,6 +9,8 @@ storage = firebase_config.firebase.storage()
 def historyc(user_id, checkin, checkout):
     ## validar se user existe
 
+    print("FORMATO",checkin, checkout);
+
     result = Validation.range_date_validation(checkin, checkout)
 
     check_in_date = result[1]

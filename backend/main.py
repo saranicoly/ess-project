@@ -159,11 +159,11 @@ def get_accommodations(
 @app.put("/accommodation/{id}/edit")
 def edit_accommodation(
         id: str,
-        name: Optional[str] = None,
-        location: Optional[str] = None,
-        bedrooms: Optional[int] = None,
-        max_capacity: Optional[int] = None, 
-        description: Optional[str] = None,
+        name: str,
+        location: str,
+        bedrooms: int,
+        max_capacity: int, 
+        description: str,
         ):
         
         return edit_accommodations.update_accommodation(id, name, location, 
@@ -176,7 +176,7 @@ def delete_accomodation(id: str):
 
 @app.put("/reservation/{id}/edit")
 def edit_reservation(id: str, checkin_date:str, checkout_date: str, accommodation_id: str, cliente_id: str):
-     print("ENTREI AQUI???")
+    
      return edite_reservation.edit_reservation(id, checkin_date, 
                                                checkout_date,accommodation_id, cliente_id)
      
@@ -238,16 +238,3 @@ def get_accommodations_id(id:str):
 def get_reservations_id(id:str):
     return get_reservations.get_reservations(id)
 
-# @app.get("/reservations/{id}/list")
-# def get_accommodations(
-#         location: str = None,
-#         checkin: date = None,
-#         checkout: date = None,
-#         guests: int = None
-#     ):
-#     return accommodations.get_accommodations(
-#         location,
-#         checkin,
-#         checkout,
-#         guests
-#     )

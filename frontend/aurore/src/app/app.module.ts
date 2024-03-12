@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { RoutingModule } from './app.routing.module';// Import RouterModule
+import { RoutingModule } from './app.routing.module';
 import { HttpClientModule } from '@angular/common/http';
 
 import {HistoricComponent} from './components/list/historic/historic.component'
@@ -27,6 +27,11 @@ import {CardComponent } from './components/card/card.component'
 import {ListCardComponent} from './components/list-card/list-card.component'
 import { HistoricMainComponent } from './view/historic-main/historic-main.component'
 import {LoginComponent} from './view/login/login.component'
+import {EditAccommodationComponent} from './view/edit-accommodation/edit-accommodation.component'
+import {RatingComponent} from './components/rating/rating.component'
+
+import {MatButtonModule} from '@angular/material/button';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,7 +45,9 @@ import {LoginComponent} from './view/login/login.component'
     CardComponent,
     ListCardComponent,
     HistoricMainComponent,
-    LoginComponent
+    LoginComponent,
+    EditAccommodationComponent,
+    RatingComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +62,8 @@ import {LoginComponent} from './view/login/login.component'
     ReactiveFormsModule,
     RouterModule,
     MatToolbarModule,
-    MatMenuModule
+    MatMenuModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

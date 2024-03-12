@@ -25,7 +25,8 @@ def get_reservations(id_client):
                     accomodation = firebase_config.db.child("accommodation").child(info['accommodation_id']).get().val()
                     
                     obj = {'name': accomodation['name'], 'location': accomodation['location'], 'id': info['reservation_id'], 
-                        'img_url': image_url, 'price': info['total_price'], 'checkin': info['checkin_date'], 'checkout': info['checkout_date']}
+                        'img_url': image_url, 'price': info['total_price'], 'checkin': info['checkin_date'], 'checkout': info['checkout_date'],
+                         'accommodation_id': info['accommodation_id']}
                     result.append(obj)
 
         return  HTTPException(status_code=200, detail=result)
