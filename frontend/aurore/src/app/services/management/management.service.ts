@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { NONE_TYPE } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +38,21 @@ export class ManegementService {
     return this.http.put<any>(url, null, { params: params });
   }
 
+  editAccommodation(data: any): Observable<any> {
+
+    const url = `http://localhost:8000/accommodation/${data.id}/edit`;
+    const params = new HttpParams()
+      .set('name', data.name  )
+      .set('location', data.location )
+      .set('bedrooms', data.bedrooms)
+      .set('max_capacity', data.max_capacity)
+      .set('description', data.description );
+    return this.http.put<any>(url, null, { params: params });
+  }
+
+
   deleteId(rota:string): Observable<any>{
+    console.log(rota)
     return this.http.delete(`http://localhost:8000/${rota}`);
   }
 }
