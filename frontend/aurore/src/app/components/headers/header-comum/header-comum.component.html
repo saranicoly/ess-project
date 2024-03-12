@@ -1,22 +1,25 @@
 
 <mat-toolbar class="toolbar mat-elevation-v4">
-    <a [routerLink]=""><img src="./../../../../assets/img/logo.png" alt="logo.png" height="70px"></a>
+    <a routerLink="/"><img src="./../../../../assets/img/logo.png" alt="logo.png" height="70px"></a>
 
     <div class="infoHead">
        <a class="options" [routerLink]="rotaA" (click)="accodation()" #accomod [ngClass]="{'background': loc == 'accomd'}"><p>Acomodacões</p></a>
        <a class="options"  [routerLink]="rotaB" (click)="reservation()" #reserv [ngClass]="{'background': loc == 'reserv'}"><p>Reservas</p></a>
        <a class="options"><p>Anuncie seu espaço aqui</p></a>
-
-      <div class="apresentar">
-        <p style="color: white; margin-right: 3%; font-size: 13px;">Olá, {{userName}}</p>
-        <a (click)="showMenu()" style="cursor: pointer;">
-         <mat-icon  style="color: white;">keyboard_arrow_down</mat-icon>
-        </a>
-        <div class="menu" #menu>
-         <button mat-menu-item class="choose">LogOut</button>
-       </div>
+      
+        <div class="apresentar">
+          <button mat-button (click)="changeClick()">
+            Olá, {{userName}}
+            <mat-icon>{{clicked? 'keyboard_arrow_up':'keyboard_arrow_down'}}</mat-icon>
+          </button>
+          <!--<mat-menu #menu="matMenu" class="menu-custom">
+            <button mat-menu-item>Log Out</button>
+            <button mat-menu-item>Histórico</button>
+          </mat-menu>-->
+        </div>
+        <div class="apresentar"*ngIf="clicked" style="background-color: #ccc;">
+        <button style="background-color: #ccc; color: black; padding: 5px; border:0; margin-right: 3%;">Deslogar</button>
+        </div>
     </div>
-
- </div>
 </mat-toolbar>
 

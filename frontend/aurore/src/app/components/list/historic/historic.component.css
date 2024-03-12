@@ -19,7 +19,7 @@
     background-color: aliceblue;
     display: flex;
     flex-direction: column;
-    
+
 }
 
 .component-list{
@@ -83,6 +83,7 @@ hr{
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    text-align: center;
 }
 
 .stars{
@@ -90,7 +91,9 @@ hr{
     width: 100%;
     font-size: 2rem;
 }
-
+.avaliar{
+  font-size: 0.8rem;
+}
 .avaliar:hover{
     transform: scale(1.1);
     box-shadow: 1px solid black;

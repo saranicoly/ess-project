@@ -23,13 +23,14 @@ export class HeaderComumComponent implements OnInit{
   rotaB: any;
   menu: boolean = true;
   visible: any = false;
+  clicked: boolean = false;
 
   @Input() userName : any;
   @Output() parametroEnviado = new EventEmitter<string>();
   @Input() loc: any;
 
   ngOnInit(): void {
-     
+
   }
 
   showMenu(){
@@ -44,6 +45,10 @@ export class HeaderComumComponent implements OnInit{
     popUpElement.style.visibility = 'hidden';
    }
 
+  }
+
+  changeClick(){
+    this.clicked = !this.clicked;
   }
 
   accodation(){

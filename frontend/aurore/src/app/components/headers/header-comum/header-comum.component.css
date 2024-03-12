@@ -8,6 +8,7 @@
     overflow: hidden;
     position: fixed;
     padding: 0;
+    color: white;
 }
 
 .infoHead{
@@ -28,6 +29,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  text-decoration: none;
 }
 
 .apresentar{
@@ -39,6 +41,8 @@
   align-items: center;
   text-align: center;
   justify-content: center;
+  font-size: 0.8rem;
+  color: white;
   border: 1px solid white;
 }
 
@@ -51,14 +55,15 @@
   background-color: #ccc;
 }
 .menu{
-  height: 15%;
-  width: 10%;
+  height: 20%;
+  width: 40%;
   position: absolute;
   z-index: 2;
   display: flex;
   flex-direction:column;
   margin-top: 10%;
   visibility: hidden;
+
 }
 
 .choose{
@@ -77,6 +82,12 @@
 .background{
   border: 1px solid #ccc;
   color: white;
+}
+
+.userName{
+  color: white;
+  margin-right: 3%;
+  font-size: 13px;
 }
 
 
