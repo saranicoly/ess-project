@@ -17,12 +17,14 @@ export class ListReservationComponent {
   rota: any;
   rotaDel: any;
   loc: string = "reserv";
+  historic: any;
 
 
   constructor(private service: ManegementService,private route: ActivatedRoute){
 
     this.route.params.subscribe(params => {
       this.name = params['user'];
+      this.historic = `/listRs/${this.name}/historic`
     });
 
   }

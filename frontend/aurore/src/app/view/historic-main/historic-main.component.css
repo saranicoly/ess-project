@@ -1,4 +1,10 @@
 
+* {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
 .info {
   margin: 0;
   padding: 0;
@@ -9,11 +15,7 @@
   overflow: hidden;
 }
 
-.info * {
-  margin: 0;
-  padding: 0;
-  border: none;
-}
+
 
 .info app-input-historic,
 .info app-historic {

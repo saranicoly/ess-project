@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {ManegementService} from '../../services/management/management.service'
-
+import {ActivatedRoute} from '@angular/router'
 @Component({
   selector: 'app-historic-main',
   templateUrl: './historic-main.component.html',
@@ -8,7 +8,15 @@ import {ManegementService} from '../../services/management/management.service'
 })
 export class HistoricMainComponent {
 
-  constructor(private serviceMngt: ManegementService){}
+  name:any;
+  loc: string = "reserv";
+
+  constructor(private serviceMngt: ManegementService, private route: ActivatedRoute){
+
+    this.route.params.subscribe(params => {
+      this.name = params['user'];
+    });
+  }
 
   historicData: any;
 

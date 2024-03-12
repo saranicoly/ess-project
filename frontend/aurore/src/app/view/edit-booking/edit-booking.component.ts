@@ -1,7 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder  } from '@angular/forms';
 import { ManegementService } from '../../services/management/management.service'
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute , Router} from '@angular/router';
+
 @Component({
   selector: 'app-edit-booking',
   templateUrl: './edit-booking.component.html',
@@ -10,20 +11,28 @@ import { ActivatedRoute } from '@angular/router';
 export class EditBookingComponent implements OnInit{
 
 registerForm: any = FormGroup;
-name: any; // manda user name para o header
+name: any; 
 alert: any;
 title: any;
 link: any ;
 disable: boolean = true;
 rota: any;
 id:any;
+accommodation:any;
+loc: string = "reserv";
 
-constructor(private fb: FormBuilder, private service: ManegementService,private route: ActivatedRoute){
+constructor(private fb: FormBuilder, private service: ManegementService,private route: ActivatedRoute, private router: Router){
   this.route.params.subscribe(params => {
     this.name = params['user'];
     this.id = params['id'];
-    console.log(this.name, this.id);
+    console.log("NAME E PARAM", this.name, this.id)
   });
+
+  const navigation = this.router.getCurrentNavigation();
+  if (navigation && navigation.extras.state) {
+    this.accommodation  = navigation.extras.state['dados'].accommodation;
+
+  }
 
 }
 @ViewChild('popUp') popUp!: ElementRef;
@@ -116,16 +125,18 @@ ngOnInit(): void {
     this.disable = false;
 
      if(status == 200){
-      this.alert = "Sua reserva foi deletada com sucesso!"
+      this.alert = "Obrigada, Sua reserva foi deletada com sucesso!"
       this.title = "Obrigada";
       this.link = '../../../assets/img/verificado.png';
       this.rota = '/'
+      alert(this.alert)
      }
      else{
       this.alert = "Não foi possível editar sua reserva!"
       this.title = "Erro";
       this.link = '../../../assets/img/error.png';
       this.rota = '/'
+      alert(this.alert)
      }
 
   }
@@ -134,25 +145,32 @@ ngOnInit(): void {
 
     let checkin = this.registerForm.get('checkin').value;
     let checkout = this.registerForm.get('checkout').value;
-    let accommodation ="3cb5d4a0-df96-4a73-82bd-a6fdc91d1994";
-    let reservation_id = "7aedea72-57a0-4dba-9e1b-68af6035f34a";
+  
 
     const popUpElement = this.popUp.nativeElement as HTMLElement;
     this.title = "Um momento"
     this.alert = "Carregando informações"
     this.link = "../../../assets/img/carregando.png"
     popUpElement.style.visibility = 'visible';
-
-
+      
+    console.log("ACOMODATION_ID", this.accommodation)
+    
       this.service.editReservation({
-        id: reservation_id,
+        id: this.id,
         checkin: checkin ,
         checkout: checkout,
-        accommodation_id: accommodation,
+        accommodation_id: this.accommodation,
         cliente_id: this.name
       }).subscribe((result)=>{
-        this.showPop(result.status_code)
-      })
+         if(result.status_code == 200){
+          alert("Reserva editada com Sucesso!")
+         }
+         else{
+          alert("Erro ao editar Reserva.")
+           }
+           this.router.navigateByUrl(`/listRs/${this.name}`);
+         }
+      )
     }
   }
 

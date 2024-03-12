@@ -39,7 +39,7 @@ export class ListAccomodationComponent implements OnInit{
 
             if(dados.detail.length > 0){
 
-              this.rota = `/listAc/${this.name}/editRs`;
+              this.rota = `/listAc/${this.name}/editAc`;
               this.showList = true;
               this.rotaDel = "accommodation";
             }
