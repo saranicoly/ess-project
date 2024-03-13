@@ -225,3 +225,12 @@ def get_reservations_id(id:str):
     return get_reservations.get_reservations(id)
 
 
+@app.get("/accommodation/{accommodation_id}")
+def get_accommodation_by_id(
+    accommodation_id: str
+    ): 
+    return accommodations.get_accommodation_by_id(
+        accommodation_id
+    )
+
+
