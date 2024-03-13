@@ -11,17 +11,20 @@ export class BookAccommodationsComponent implements OnInit {
   id: any;
   accommodationInfo: any;
   data: any;
+  name: any;
+  loc: any = 'pass';
 
   constructor(private route: ActivatedRoute, private router: Router, private service: ManegementService) {
     // Recupera os dados passados pela rota
     const navigation = this.router.getCurrentNavigation();
-    if (navigation && navigation.extras && navigation.extras.state) {
-      this.data = navigation.extras.state['data'];
+    if (navigation) {
+      this.data = navigation.extractedUrl["queryParams"];
       console.log('Data received from previous page:', this.data);
     }
   }
 
   ngOnInit(): void {
+    this.name = this.service.getLoggedUser()
     this.service.getAcmdtInfo(this.data['accommodation_id']).subscribe((dados: any) => {
       console.log("Recebendo dados do back...", dados);
       // Armazenar os dados recebidos para exibição no template
@@ -38,8 +41,9 @@ export class BookAccommodationsComponent implements OnInit {
   }
 
   // Rota do botão
-  onButtonClick(): void {
-    const data = this.data // Substitua pelos dados reais que você deseja passar
+  onButtonClick(): void { // Substitua pelos dados reais que você deseja passar
+    const data = this.data
+    data['client_id'] = this.service.getLoggedUser()
     console.log('Enviando os seguintes dados para pagamento:', data)
     this.router.navigate(['/payment'], { state: { data } });
   }

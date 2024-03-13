@@ -31,7 +31,12 @@ export class SearchPageComponent {
 
     this.http.get(url, { headers }).subscribe((data: any) => {
       console.log(data);
-      this.router.navigate(['/home']);
+      this.router.navigate(['/home'], {
+        queryParams: {
+          checkin,
+          checkout
+        }
+      });
     });
   }
 
