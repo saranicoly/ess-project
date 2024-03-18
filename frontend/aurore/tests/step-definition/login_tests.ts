@@ -2,7 +2,7 @@ import { Given, When, Then } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 import { ICustomWorld } from '../support/custom-world';
 
-Given('O banco de dados do sistema tem cadastrado um usuário com Nome "Pedro", Username "phagp", Email "phagp@cin.ufpe.br" , CPF "12345678912" e senha "12345678"', async function (this: ICustomWorld) {});
+Given('O banco de dados do sistema tem cadastrado um usuário com Nome {string}, Username {string}, Email {string} , CPF {string} e senha {string}', async function (this: ICustomWorld, name, username, email, cpf, password) {});
 Given('Estou na tela "Login de usuário"', async function (this: ICustomWorld) {
     await this.page!.goto('http://localhost:4200/users/login');
 });
